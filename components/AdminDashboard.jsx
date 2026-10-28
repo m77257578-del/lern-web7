@@ -4028,6 +4028,57 @@ export default function AdminDashboard({
               </div>
             </div>
 
+            {/* Danger Zone: Wipe All Database Records */}
+            <div className="rounded-3xl border border-rose-500/40 bg-gradient-to-r from-rose-950/40 via-slate-900 to-slate-950 p-6 md:p-8 space-y-4 shadow-xl">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-rose-500/20 px-3 py-1 text-xs font-bold text-rose-400 border border-rose-500/30">
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>{isRtl ? 'منطقة الخطر - تصفير قاعدة البيانات' : 'Danger Zone - Database Wipe'}</span>
+                  </div>
+                  <h3 className="text-xl font-black text-white">
+                    {isRtl ? 'مسح وتصفير كافة البيانات والمنشورات والعملاء' : 'Wipe All Database Records & Published Items'}
+                  </h3>
+                  <p className="text-xs md:text-sm text-slate-300">
+                    {isRtl 
+                      ? 'سيؤدي هذا الإجراء إلى حذف كافة المشاريع، العملاء المسجلين، مسودات التعديل، الطلبات، السجلات، والمقالات من قاعدة البيانات بشكل كامل.' 
+                      : 'Permanently deletes all projects, registered users, customization drafts, orders, logs, and articles from the database.'}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm(isRtl 
+                      ? '⚠️ تحذير نهائي: هل أنت متأكد تماماً من مسح وتصفير كافة محتويات قاعدة البيانات والمنشورات؟ لا يمكن التراجع عن هذا الإجراء أبداً.' 
+                      : '⚠️ Final Warning: Are you sure you want to wipe all database records and published items? This action cannot be undone.')) {
+                      const res = storageService.clearAllDatabase();
+                      if (res.success) {
+                        setProjects(storageService.getProjects(true));
+                        setUsers(storageService.getUsers());
+                        setOrders(storageService.getUserOrders());
+                        setAiDrafts(storageService.getAiDrafts());
+                        setMediaResources(storageService.getMediaResources());
+                        setReviews(storageService.getReviews());
+                        setActivityLogs(storageService.getActivityLogs());
+                        setArticles(storageService.getArticles(true));
+                        setFaqs(storageService.getFaqs(true));
+                        setAnnouncements(storageService.getAnnouncements());
+                        setStaffList(storageService.getStaff());
+                        setAchievementsList(storageService.getAllAchievements());
+                        setPublishedProjects(storageService.getPublishedProjects());
+                        triggerSaveNotification(isRtl ? 'تم مسح وتصفير كافة بيانات وقاعدة البيانات بنجاح.' : 'All database records successfully wiped.');
+                      }
+                    }
+                  }}
+                  className="flex items-center gap-2 rounded-2xl bg-rose-600 hover:bg-rose-500 px-6 py-3.5 text-xs md:text-sm font-bold text-white shadow-lg shadow-rose-600/30 transition active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>{isRtl ? 'مسح وتصفير قاعدة البيانات بالكامل' : 'Wipe All Database Now'}</span>
+                </button>
+              </div>
+            </div>
+
             {/* Database Action Logs Table */}
             <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 md:p-8 space-y-6 shadow-xl">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">

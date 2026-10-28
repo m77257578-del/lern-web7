@@ -48,30 +48,15 @@ export const AdminAnalyticsDashboard: React.FC<AdminAnalyticsDashboardProps> = (
         if (daysMap[dayKey] !== undefined) {
           daysMap[dayKey] += 1;
         } else {
-          // Add default baseline for demo graph
-          daysMap[dayKey] = (daysMap[dayKey] || 0) + 1;
+          daysMap[dayKey] = 1;
         }
       }
     });
 
-    const entries = Object.entries(daysMap);
-    if (entries.every(([, val]) => val === 0)) {
-      // Provide realistic initial benchmark data for preview
-      return [
-        { day: isRtl ? 'السبت' : 'Sat', count: 4, activeSessions: 18 },
-        { day: isRtl ? 'الأحد' : 'Sun', count: 7, activeSessions: 29 },
-        { day: isRtl ? 'الإثنين' : 'Mon', count: 12, activeSessions: 42 },
-        { day: isRtl ? 'الثلاثاء' : 'Tue', count: 9, activeSessions: 38 },
-        { day: isRtl ? 'الأربعاء' : 'Wed', count: 15, activeSessions: 55 },
-        { day: isRtl ? 'الخميس' : 'Thu', count: 21, activeSessions: 68 },
-        { day: isRtl ? 'الجمعة' : 'Fri', count: 18, activeSessions: 61 }
-      ];
-    }
-
-    return entries.map(([day, count]) => ({
+    return Object.entries(daysMap).map(([day, count]) => ({
       day,
-      count: count + Math.floor(Math.random() * 3) + 2,
-      activeSessions: count * 3 + 12
+      count,
+      activeSessions: count * 2 + (users.length > 0 ? 1 : 0)
     }));
   }, [users, isRtl]);
 
@@ -105,8 +90,8 @@ export const AdminAnalyticsDashboard: React.FC<AdminAnalyticsDashboardProps> = (
 
     return Object.entries(daysMap).map(([day, val]) => ({
       day,
-      ordersCount: val.orders || Math.floor(Math.random() * 5) + 3,
-      activityIndex: val.activities || Math.floor(Math.random() * 20) + 15
+      ordersCount: val.orders,
+      activityIndex: val.activities
     }));
   }, [orders, activityLogs, isRtl]);
 
@@ -119,14 +104,9 @@ export const AdminAnalyticsDashboard: React.FC<AdminAnalyticsDashboardProps> = (
     orders.forEach((o) => {
       if (o.planType === 'monthly') monthly++;
       else if (o.planType === 'annual') annual++;
-      else if (o.planType === 'full') full++;
+      else if (o.planType === 'full' || o.planType === 'lifetime') full++;
+      else monthly++;
     });
-
-    if (monthly === 0 && annual === 0 && full === 0) {
-      monthly = 8;
-      annual = 18;
-      full = 12;
-    }
 
     return [
       { name: isRtl ? 'إيجار شهري (Monthly)' : 'Monthly Tier', value: monthly },
@@ -142,8 +122,8 @@ export const AdminAnalyticsDashboard: React.FC<AdminAnalyticsDashboardProps> = (
         const digits = parseInt((o.amount || '').replace(/[^\d]/g, ''), 10) || 0;
         return sum + digits;
       }
-      return sum + 8500; // Average order benchmark value
-    }, 48500);
+      return sum;
+    }, 0);
   }, [orders]);
 
   return (

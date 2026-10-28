@@ -575,69 +575,9 @@ export interface UserRoleAssignment {
 
 const otpStore: Record<string, { code: string; expiresAt: number }> = {};
 
-const DEFAULT_INITIAL_USER_ROLES: Record<string, UserRoleAssignment> = {
-  'alamza217@gmail.com': {
-    email: 'alamza217@gmail.com',
-    role: 'admin',
-    permissions: ['all', 'manage_projects', 'manage_cms', 'manage_support', 'manage_payments', 'manage_staff'],
-    updatedAt: new Date().toISOString()
-  }
-};
+const DEFAULT_INITIAL_USER_ROLES: Record<string, UserRoleAssignment> = {};
 
-const DEFAULT_INITIAL_STAFF: StaffMember[] = [
-  {
-    id: 'staff-1',
-    name: 'أ. كريم المنشاوي',
-    roleAr: 'مشرف عام ومنسق المنظومة (Super Admin)',
-    roleEn: 'Super Administrator',
-    phone: '201024889921',
-    whatsapp: 'https://wa.me/201024889921',
-    telegram: 'https://t.me/lernweb_admin',
-    permissions: ['analytics', 'cms', 'orders', 'support', 'settings', 'staff', 'projects'],
-    roleType: 'admin',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'staff-2',
-    name: 'م. ياسمين فؤاد',
-    roleAr: 'مسؤولة خدمة العملاء والدعم الفني (Support)',
-    roleEn: 'Customer Support Lead',
-    phone: '201012345678',
-    whatsapp: 'https://wa.me/201012345678',
-    telegram: 'https://t.me/lernweb_support',
-    permissions: ['support', 'orders', 'tickets', 'job-applications', 'drafts', 'cms-faqs'],
-    roleType: 'support',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'staff-3',
-    name: 'م. أحمد الشناوي',
-    roleAr: 'مبرمج ومطور المنظومة التقنية (Developer)',
-    roleEn: 'Full Stack Developer',
-    phone: '201099887766',
-    whatsapp: 'https://wa.me/201099887766',
-    telegram: 'https://t.me/lernweb_dev',
-    permissions: ['projects', 'published-portfolio', 'cms', 'cms-articles', 'media', 'analytics', 'seo'],
-    roleType: 'programmer',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'staff-4',
-    name: 'أ. طارق عبد الله',
-    roleAr: 'مراقب جودة وتقييمات المنصة (Monitor)',
-    roleEn: 'Quality & Review Monitor',
-    phone: '201055443322',
-    whatsapp: 'https://wa.me/201055443322',
-    telegram: 'https://t.me/lernweb_monitor',
-    permissions: ['reviews', 'drafts', 'cms-announcements', 'activity', 'analytics'],
-    roleType: 'monitor',
-    isActive: true,
-    createdAt: new Date().toISOString()
-  }
-];
+const DEFAULT_INITIAL_STAFF: StaffMember[] = [];
 
 const DEFAULT_INITIAL_PROJECTS: ProjectItem[] = (APPS_DATA as any[]).map(app => ({
   id: app.id,
@@ -685,42 +625,7 @@ const DEFAULT_INITIAL_PROJECTS: ProjectItem[] = (APPS_DATA as any[]).map(app => 
   }
 }));
 
-const DEFAULT_INITIAL_ARTICLES: CmsArticle[] = [
-  {
-    id: 'article-pwa-revolution',
-    titleAr: 'دليل التحول الرقمي للمراكز التعليمية: كيف توفر تقنية PWA بديلاً فائقاً للتطبيقات التقليدية؟',
-    titleEn: 'Digital Transformation for Academies: How PWAs Outperform Traditional Apps',
-    categoryAr: 'تقنية وتطوير',
-    categoryEn: 'Tech & Dev',
-    author: 'م. أحمد الشناوي',
-    readTime: '4 دقائق',
-    excerptAr: 'تعرف على كيفية عمل تطبيقات الويب التقدمية (PWA) دون الحاجة لمتاجر التطبيقات ومع دعم كامل للعمل بدون إنترنت.',
-    excerptEn: 'Discover how Progressive Web Apps eliminate app store friction while providing 100% offline functionality.',
-    contentAr: 'تُعد تطبيقات الويب التقدمية (Progressive Web Apps) النقلة النوعية الأكبر في بناء المنظومات التعليمية السحابية. من خلال ميزات التخزين المؤقت المتقدمة عبر Service Workers، يستطيع الطلاب وأولياء الأمور تصفح المحاضرات والجداول وتسجيل الحضور بالـ QR code حتى في حال انقطاع اتصال الإنترنت تماماً داخل قاعات السنتر.',
-    contentEn: 'Progressive Web Apps represent a major leap forward for cloud educational systems. Utilizing Service Workers for intelligent caching, students can access lecture recordings and attendance passes even when connectivity is offline.',
-    imageUrl: '/homepage_view.png',
-    tags: ['PWA', 'التعليم الذكي', 'التطوير السحابي'],
-    isPublished: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'article-ai-proctoring',
-    titleAr: 'مستقبل الاختبارات الإلكترونية: كيف تمنع خوارزميات المراقبة الذكية تسريب الامتحانات؟',
-    titleEn: 'The Future of E-Exams: Algorithmic Anti-Cheat Integrity Systems',
-    categoryAr: 'ذكاء اصطناعي',
-    categoryEn: 'Artificial Intelligence',
-    author: 'د. ياسمين فؤاد',
-    readTime: '6 دقائق',
-    excerptAr: 'استعراض لأحدث تقنيات تأمين بيئة الاختبارات، إغلاق المتصفح الآمن، وتوليد أسئلة فريدة لكل طالب.',
-    excerptEn: 'Deep dive into browser lockdown systems, randomized question permutation, and instant AI assessment.',
-    contentAr: 'أصبحت نزاهة الامتحانات التحدي الأكبر للمراكز والسناتر التعليمية. توفر منظومة المراقبة الذكية تقنيات متطورة مثل قفل المتصفح التام (Lockdown Browser) وكشف محاولات تبديل النوافذ والتقاط الشاشات، فضلاً عن التصحيح الدلالي للأسئلة المقالية في أجزاء من الثانية.',
-    contentEn: 'Assessment integrity is paramount for high-stakes test prep. Modern proctoring suites employ automated lockdown sandboxes preventing screen capture and multi-tab switching, with sub-second semantic answer evaluation.',
-    imageUrl: '/public/admin_dashboard_view.png',
-    tags: ['AI', 'الاختبارات', 'الحماية'],
-    isPublished: true,
-    createdAt: new Date().toISOString()
-  }
-];
+const DEFAULT_INITIAL_ARTICLES: CmsArticle[] = [];
 
 const DEFAULT_INITIAL_FAQS: FaqItem[] = [
   {
@@ -769,183 +674,13 @@ const DEFAULT_INITIAL_FAQS: FaqItem[] = [
   }
 ];
 
-const DEFAULT_INITIAL_ANNOUNCEMENTS: AnnouncementBanner[] = [
-  {
-    id: 'ann-1',
-    titleAr: 'تحديث النسخة v3.8.5',
-    titleEn: 'Release v3.8.5 Live',
-    messageAr: '🚀 تم إطلاق محرك CMS المتكامل ولوحة التحكم المخصصة لإدارة المحتوى والمقالات والمشاريع مباشرة!',
-    messageEn: '🚀 Full-featured CMS and Dedicated Control Panel now live for seamless dynamic content management!',
-    badgeAr: 'جديد المنصة',
-    badgeEn: 'New Update',
-    type: 'success',
-    isActive: true,
-    targetUrl: '#dashboard'
-  }
-];
+const DEFAULT_INITIAL_ANNOUNCEMENTS: AnnouncementBanner[] = [];
 
-const DEFAULT_INITIAL_USERS: UserAccount[] = [
-  {
-    id: 'u-tarek-vip',
-    name: 'أ. طارق عبد الرحمن',
-    phone: '01024889921',
-    password: '123',
-    email: 'tarek@lernweb.com',
-    createdAt: '2026-02-10T11:00:00.000Z',
-    purchasedPlanId: 'plan-annual',
-    role: 'vip',
-    roleAr: 'عميل VIP مميز',
-    jobTitle: 'مدير أكاديمية النخبة للغات والرياضيات',
-    isBlocked: false,
-    notificationsEnabled: true,
-    deviceOs: 'Windows 11 / Chrome PWA',
-    purchasedSystems: [
-      {
-        id: 'sys-order-1',
-        projectId: 'lms-core-hub',
-        projectTitleAr: 'منظومة إدارة المراكز والسناتر التعليمية (LMS Core)',
-        projectTitleEn: 'LMS Core Educational Center Manager',
-        category: 'lms',
-        planType: 'annual',
-        amount: '8,500 ج.م',
-        licenseKey: 'LERN-2026-9E4B-8821',
-        certificateNumber: 'CERT-LW-2026-0042',
-        status: 'active',
-        isConfirmed: true,
-        confirmedAt: '2026-02-12T14:30:00.000Z',
-        purchasedAt: '2026-02-11T10:15:00.000Z',
-        sourceCodeUrl: 'https://github.com/m77257578-del/lern-web4',
-        sandboxTheme: 'ocean',
-        notes: 'تم التأكيد والاعتماد الرسمي من الإدارة وتفعيل خوادم Edge السحابية'
-      }
-    ]
-  },
-  {
-    id: 'u-heba-client',
-    name: 'د. هبة الشناوي',
-    phone: '01123456789',
-    password: '123',
-    email: 'heba@academy.edu',
-    createdAt: '2026-03-01T09:30:00.000Z',
-    purchasedPlanId: 'plan-buyout',
-    role: 'client',
-    roleAr: 'عميل معتمد',
-    jobTitle: 'مشرفة قسم الاختبارات والمناهج',
-    isBlocked: false,
-    notificationsEnabled: true,
-    deviceOs: 'macOS Sonoma / Safari PWA',
-    purchasedSystems: [
-      {
-        id: 'sys-order-2',
-        projectId: 'quiz-proctor-ai',
-        projectTitleAr: 'منظومة الاختبارات الآمنة ومنع الغش (Proctor AI)',
-        projectTitleEn: 'Proctor AI Secure Examination Suite',
-        category: 'quiz',
-        planType: 'full',
-        amount: '27,000 ج.م',
-        licenseKey: 'LERN-2026-PENDING-F120',
-        certificateNumber: 'CERT-LW-2026-0089',
-        status: 'pending',
-        isConfirmed: false,
-        purchasedAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-        notes: 'طلب شراء تملك كود مصدري بانتظار تأكيد وتفعيل الإدارة باللوحة'
-      }
-    ]
-  },
-  {
-    id: 'u-ibrahim-dev',
-    name: 'م. إبراهيم كمال',
-    phone: '01234567890',
-    password: '123',
-    email: 'ibrahim@code.dev',
-    createdAt: '2026-03-15T16:00:00.000Z',
-    role: 'developer',
-    roleAr: 'مطور برمجيات معتمد',
-    jobTitle: 'مهندس دمج واجهات PWA وAPI',
-    isBlocked: false,
-    notificationsEnabled: false,
-    deviceOs: 'Ubuntu Linux / Firefox',
-    purchasedSystems: []
-  }
-];
+const DEFAULT_INITIAL_USERS: UserAccount[] = [];
 
-const DEFAULT_INITIAL_ORDERS: UserOrder[] = [
-  {
-    id: 'order-101',
-    userId: 'u-tarek-vip',
-    userName: 'أ. طارق عبد الرحمن',
-    userPhone: '01024889921',
-    projectId: 'lms-core-hub',
-    projectTitle: 'منظومة إدارة المراكز والسناتر التعليمية (LMS Core)',
-    planType: 'annual',
-    amount: '8,500 ج.م',
-    paymentMethod: 'انستاباي (InstaPay)',
-    referenceId: 'IPN-99248102',
-    createdAt: '2026-02-11T10:15:00.000Z',
-    status: 'confirmed',
-    licenseKey: 'LERN-2026-9E4B-8821',
-    confirmedAt: '2026-02-12T14:30:00.000Z',
-    adminNotes: 'تم التأكيد والاعتماد وتفعيل السيرفرات السحابية'
-  },
-  {
-    id: 'order-102',
-    userId: 'u-heba-client',
-    userName: 'د. هبة الشناوي',
-    userPhone: '01123456789',
-    projectId: 'quiz-proctor-ai',
-    projectTitle: 'منظومة الاختبارات الآمنة ومنع الغش (Proctor AI)',
-    planType: 'full',
-    amount: '27,000 ج.م',
-    paymentMethod: 'فودافون كاش (Vodafone Cash)',
-    referenceId: 'VF-44820199',
-    createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-    status: 'pending',
-    licenseKey: '',
-    adminNotes: 'بانتظار مراجعة التحويل واعتماد التفعيل من الإدارة'
-  }
-];
+const DEFAULT_INITIAL_ORDERS: UserOrder[] = [];
 
-const DEFAULT_INITIAL_NOTIFICATIONS: UserNotification[] = [
-  {
-    id: 'notif-admin-1',
-    userId: 'admin',
-    targetRole: 'admin',
-    titleAr: '🛒 طلب شراء نظام جديد بانتظار التأكيد',
-    titleEn: '🛒 New Platform Order Pending Confirmation',
-    messageAr: 'قام العميل د. هبة الشناوي بطلب شراء منظومة الاختبارات الآمنة (Proctor AI) بمبلغ 27,000 ج.م عبر فودافون كاش. يرجى مراجعة وتأكيد وتفعيل الشراء.',
-    messageEn: 'Dr. Heba El-Shennawy requested Proctor AI buyout (27,000 EGP) via Vodafone Cash. Please review and confirm.',
-    type: 'order_placed',
-    read: false,
-    createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-    linkUrl: '#orders'
-  },
-  {
-    id: 'notif-admin-2',
-    userId: 'admin',
-    targetRole: 'admin',
-    titleAr: '🤖 مسودة ذكاء اصطناعي جديدة بانتظار المراجعة',
-    titleEn: '🤖 New AI Customization Staged Draft',
-    messageAr: 'قام زائر/عميل برفع مسودة تخصيص بالذكاء الاصطناعي لمنظومة إدارة السناتر التعليمية بهوية جديدة واسم مركز جديد.',
-    messageEn: 'A client submitted an AI customization draft for review.',
-    type: 'draft_submitted',
-    read: false,
-    createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
-    linkUrl: '#drafts'
-  },
-  {
-    id: 'notif-client-1',
-    userId: 'u-tarek-vip',
-    targetRole: 'user',
-    titleAr: '🎉 تم تأكيد وتفعيل منظومتك بنجاح!',
-    titleEn: '🎉 Platform Purchase Confirmed & Activated!',
-    messageAr: 'تهانينا! تم تأكيد وتفعيل شراء منظومة إدارة المراكز والسناتر (LMS Core). كود الترخيص الرسمي: LERN-2026-9E4B-8821. يمكنك الآن تشغيل المنظومة في المحاكي وتنزيل ملفات الكود المصدري.',
-    messageEn: 'Congratulations! Your LMS Core platform is confirmed and active. License Key: LERN-2026-9E4B-8821.',
-    type: 'system_activated',
-    read: false,
-    createdAt: '2026-02-12T14:35:00.000Z',
-    linkUrl: '#client-portal'
-  }
-];
+const DEFAULT_INITIAL_NOTIFICATIONS: UserNotification[] = [];
 
 let cachedProjects: ProjectItem[] = [...DEFAULT_INITIAL_PROJECTS];
 let cachedPublishedProjects: PublishedProject[] = [];
@@ -976,40 +711,7 @@ export interface AchievementItem {
   createdAt: string;
 }
 
-const DEFAULT_INITIAL_ACHIEVEMENTS: AchievementItem[] = [
-  {
-    id: 'ach-1',
-    titleAr: 'ثورة في أنظمة إدارة التعليم (LMS Revolution)',
-    titleEn: 'LMS Management Revolution',
-    categoryAr: 'أنظمة إدارة التعلم PWA',
-    categoryEn: 'PWA Learning Systems',
-    descriptionAr: 'نجحنا في تطوير أول منظومة عربية تدعم العمل بدون إنترنت (PWA) وتوليد بطاقات الهوية الذكية بالباركود، مما قلل وقت تسجيل حضور الطلاب بنسبة 85% في أكثر من 150 سنتر تعليمي.',
-    descriptionEn: 'We developed the first Arabic PWA supporting offline operation and QR code attendance cards, reducing check-in time by 85% in over 150 centers.',
-    metricNumber: '150+',
-    metricLabelAr: 'سنتر تعليمي معتمد',
-    metricLabelEn: 'Certified Centers',
-    imageUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop',
-    linkUrl: 'https://lernweb.com/case-studies/lms',
-    isPublished: true,
-    createdAt: '2026-01-15T10:00:00.000Z'
-  },
-  {
-    id: 'ach-2',
-    titleAr: 'الأمن السيبراني والذكاء الاصطناعي (Proctor AI)',
-    titleEn: 'Cybersecurity & AI Proctoring',
-    categoryAr: 'حماية وتأمين الاختبارات',
-    categoryEn: 'Exam Security & AI',
-    descriptionAr: 'منظومة Proctor AI الخاصة بنا أصبحت المعيار الأول للأمان في الاختبارات الأونلاين، حيث تم تنفيذ أكثر من نصف مليون اختبار آمن بدون أي حالات اختراق أو تسريب.',
-    descriptionEn: 'Our Proctor AI engine became the benchmark for online exam proctoring, securing 500k+ exams with zero leaks.',
-    metricNumber: '500k+',
-    metricLabelAr: 'اختبار آمن موثق',
-    metricLabelEn: 'Secured Exams',
-    imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop',
-    linkUrl: 'https://lernweb.com/tech/security',
-    isPublished: true,
-    createdAt: '2026-03-20T10:00:00.000Z'
-  }
-];
+const DEFAULT_INITIAL_ACHIEVEMENTS: AchievementItem[] = [];
 
 let cachedChats: ChatMessage[] = [];
 let cachedTickets: SupportTicket[] = [];
@@ -3200,6 +2902,18 @@ PLATFORM CONTEXT (Lern Web):
       );
     }
 
+    safeFetch('/api/webhook/whatsapp-notification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: app.name,
+        phone: app.phone,
+        status,
+        role: roleTitleAr,
+        message
+      })
+    }).catch(err => console.warn('WhatsApp webhook dispatch error:', err));
+
     notifyStorageChange();
     saveDocument('job_applications', app);
 
@@ -3463,6 +3177,49 @@ PLATFORM CONTEXT (Lern Web):
       success: true,
       messageAr: 'تمت استعادة البيانات ونظام المحتوى بنجاح!',
       messageEn: 'Data and CMS content successfully restored!'
+    };
+  },
+
+  clearAllDatabase(): { success: boolean; messageAr: string; messageEn: string } {
+    cachedProjects = [];
+    cachedUsers = [];
+    cachedOrders = [];
+    cachedDrafts = [];
+    cachedMedia = [];
+    cachedReviews = [];
+    cachedLogs = [];
+    cachedTickets = [];
+    cachedArticles = [];
+    cachedFaqs = [];
+    cachedAnnouncements = [];
+    cachedAchievements = [];
+    cachedPublishedProjects = [];
+
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('lernweb_users_backup');
+        localStorage.removeItem('lernweb_orders_backup');
+        localStorage.removeItem('lernweb_drafts_backup');
+        localStorage.removeItem('lernweb_tickets_backup');
+        localStorage.removeItem('lernweb_ai_call_history');
+        localStorage.removeItem('lernweb_current_user');
+      } catch (e) {
+        console.warn('Error clearing localStorage:', e);
+      }
+    }
+
+    this.addActivityLog(
+      'database_wiped',
+      'مسح وتصفير كافة بيانات قاعدة البيانات والمنشورات والعملاء',
+      'Wiped all database collections, users, and published items'
+    );
+
+    notifyStorageChange('database_wiped');
+
+    return {
+      success: true,
+      messageAr: 'تم مسح وتصفير كافة بيانات قاعدة البيانات بنجاح!',
+      messageEn: 'All database records and published items wiped successfully!'
     };
   },
 

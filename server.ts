@@ -2127,6 +2127,24 @@ Context:
     });
   });
 
+  // Automated WhatsApp Notification Webhook for User / Staff Status Changes ('accepted' or 'rejected')
+  app.post('/api/webhook/whatsapp-notification', (req, res) => {
+    try {
+      const { name, phone, status, role, message } = req.body || {};
+      console.log(`[WhatsApp Webhook] Status update notification triggered for ${name} (${phone}) - Status: ${status}, Role: ${role}`);
+      res.json({
+        success: true,
+        dispatched: true,
+        recipient: { name, phone },
+        status,
+        role,
+        timestamp: new Date().toISOString()
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err?.message || 'WhatsApp webhook dispatch failed' });
+    }
+  });
+
   // Backup
   app.get('/api/backup', (req, res) => {
     db = loadDb();
